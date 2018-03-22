@@ -14,7 +14,6 @@ public class WorkoutActivity extends AppCompatActivity {
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
-
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.workouts_menu, menu);
         return true;
