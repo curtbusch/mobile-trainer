@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -21,6 +22,7 @@ import okhttp3.Response;
 public class ExercisesActivity extends AppCompatActivity {
     private ListView lstExercises;
     private ArrayList<Exercise> exercises;
+    private boolean isLastPage = false;
 
     //Remove
     private ArrayList<String> testList;
@@ -36,19 +38,22 @@ public class ExercisesActivity extends AppCompatActivity {
         //Remove
         testList = new ArrayList<String>(10);
 
-        // Set okhttp handler
-        String url = "https://wger.de/api/v2/exercise.json?page=" + "2";
+        Log.d("islastpage", Boolean.toString(isLastPage));
 
-        OkHttpHandler okHttpHandler = new OkHttpHandler();
-
-        okHttpHandler.execute(url);
-
+        for(int i = 2; i < 5; i++) {
+            String url = "https://wger.de/api/v2/exercise.json/?page=" + Integer.toString(i);
+            OkHttpHandler httpHandler = new OkHttpHandler(i);
+            httpHandler.execute(url);
+        }
     }
-
-    // TODO: Make another async task
 
     public class OkHttpHandler extends AsyncTask {
         OkHttpClient client = new OkHttpClient();
+        private int count;
+
+        public OkHttpHandler(int count){
+            this.count = count;
+        }
 
         @Override
         protected String doInBackground(Object[] params) {
@@ -59,9 +64,10 @@ public class ExercisesActivity extends AppCompatActivity {
 
             try {
                 Response response = client.newCall(request).execute();
-
+                Log.d("Responsecode", Integer.toString(response.code()));
                 return response.body().string();
             }catch (Exception e){
+                Toast.makeText(ExercisesActivity.this,"Request failed: unable to access api", Toast.LENGTH_SHORT);
                 e.printStackTrace();
             }
             return null;
@@ -72,10 +78,11 @@ public class ExercisesActivity extends AppCompatActivity {
             super.onPostExecute(o);
             parseResponse(o.toString());
             Log.d("curtis", Integer.toString(exercises.size()));
-
-            //Change
-            ArrayAdapter adapter = new ArrayAdapter(ExercisesActivity.this, android.R.layout.simple_expandable_list_item_1, testList);
-            lstExercises.setAdapter(adapter);
+            Log.d("whatiscount", Integer.toString(count));
+            if (count == 4) {
+                ArrayAdapter adapter = new ArrayAdapter(ExercisesActivity.this, android.R.layout.simple_list_item_1, testList);
+                lstExercises.setAdapter(adapter);
+            }
         }
     }
 
@@ -88,13 +95,11 @@ public class ExercisesActivity extends AppCompatActivity {
                 JSONObject exercise = results.getJSONObject(i);
                 Exercise exerciseToAdd = new Exercise(exercise.getString("name"), exercise.getString("description"), mapIdToCategory(exercise.getInt("category")));
 
-                // If name and description fields exist in api
-                if (exercise.getString("name").trim() != "" && exercise.getString("description").trim() != "") {
-                    //remove
-                    String test = exercise.getString("name");
-                    testList.add(test);
-                    exercises.add(exerciseToAdd);
-                }
+                //remove
+                String test = exercise.getString("name");
+                testList.add(test);
+                exercises.add(exerciseToAdd);
+
             }
         } catch (JSONException e) {
             e.printStackTrace();
