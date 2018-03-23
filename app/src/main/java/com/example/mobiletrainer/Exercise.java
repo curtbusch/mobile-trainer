@@ -36,4 +36,6 @@ public class Exercise {
     public void setCategory(String category) {
         this.category = category;
     }
+
+
 }
