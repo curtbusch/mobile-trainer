@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.Adapter;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -23,6 +24,7 @@ public class ExercisesActivity extends AppCompatActivity {
     private ListView lstExercises;
     private ArrayList<Exercise> exercises;
     private boolean isLastPage = false;
+    private ArrayAdapter adapter;
 
     //Remove
     private ArrayList<String> testList;
@@ -40,7 +42,7 @@ public class ExercisesActivity extends AppCompatActivity {
 
         Log.d("islastpage", Boolean.toString(isLastPage));
 
-        for(int i = 2; i < 5; i++) {
+        for(int i = 2; i < 26; i++) {
             String url = "https://wger.de/api/v2/exercise.json/?page=" + Integer.toString(i);
             OkHttpHandler httpHandler = new OkHttpHandler(i);
             httpHandler.execute(url);
@@ -57,6 +59,7 @@ public class ExercisesActivity extends AppCompatActivity {
 
         @Override
         protected String doInBackground(Object[] params) {
+
 
             Request.Builder builder = new Request.Builder();
             builder.url(params[0].toString());
@@ -79,9 +82,13 @@ public class ExercisesActivity extends AppCompatActivity {
             parseResponse(o.toString());
             Log.d("curtis", Integer.toString(exercises.size()));
             Log.d("whatiscount", Integer.toString(count));
-            if (count == 4) {
-                ArrayAdapter adapter = new ArrayAdapter(ExercisesActivity.this, android.R.layout.simple_list_item_1, testList);
+
+            if(count == 2) {
+                adapter = new ArrayAdapter(ExercisesActivity.this, android.R.layout.simple_list_item_1, testList);
                 lstExercises.setAdapter(adapter);
+            }
+            else {
+                adapter.notifyDataSetChanged();
             }
         }
     }
