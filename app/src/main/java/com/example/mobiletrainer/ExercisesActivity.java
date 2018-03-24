@@ -34,6 +34,9 @@ public class ExercisesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercises);
 
+
+        Toast.makeText(ExercisesActivity.this,"Loading Exercises...", Toast.LENGTH_SHORT).show();
+
         // Initialize listview and list of exercises
         lstExercises = findViewById(R.id.lstExercises);
         exercises = new ArrayList<Exercise>(10);
@@ -70,7 +73,8 @@ public class ExercisesActivity extends AppCompatActivity {
                 Log.d("Responsecode", Integer.toString(response.code()));
                 return response.body().string();
             }catch (Exception e){
-                Toast.makeText(ExercisesActivity.this,"Request failed: unable to access api", Toast.LENGTH_SHORT);
+                Toast.makeText(ExercisesActivity.this,"Request failed: unable to access api", Toast.LENGTH_SHORT).show()
+                ;
                 e.printStackTrace();
             }
             return null;
@@ -84,7 +88,7 @@ public class ExercisesActivity extends AppCompatActivity {
             Log.d("whatiscount", Integer.toString(count));
 
             if(count == 2) {
-                adapter = new ArrayAdapter(ExercisesActivity.this, android.R.layout.simple_list_item_1, testList);
+                adapter = new MyAdapter(ExercisesActivity.this, exercises);
                 lstExercises.setAdapter(adapter);
             }
             else {
