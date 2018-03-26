@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.mobiletrainer">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -17,7 +19,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".WorkoutActivity" />
-        <activity android:name=".ExercisesActivity"></activity>
+        <activity android:name=".ExercisesActivity" />
+        <activity android:name=".ExerciseDetailsActivity" />
+        <activity android:name=".NewWorkoutActivity"></activity>
     </application>
-    <uses-permission android:name="android.permission.INTERNET" />
+
 </manifest>

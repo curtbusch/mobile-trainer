@@ -1,29 +1,25 @@
 package com.example.mobiletrainer;
 
-/**
- * Created by curtd on 2/21/2018.
- */
-
-import java.util.ArrayList;
-
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
+import java.util.ArrayList;
 
-public class MyAdapter extends ArrayAdapter<Exercise> {
+/**
+ * Created by curtd on 3/25/2018.
+ */
+
+public class WorkoutAdapter extends ArrayAdapter<WorkoutAdapter> {
     private final Context context;
-    private final ArrayList<Exercise> itemsArrayList;
+    private final ArrayList<Workout> itemsArrayList;
 
 
-    public MyAdapter(Context context, ArrayList<Exercise> itemsArrayList) {
-
-        super(context, R.layout.row, itemsArrayList);
+    public WorkoutAdapter(Context context, int resourceId, ArrayList<Workout> itemsArrayList) {
+        super(context, resourceId);
 
         this.context = context;
         this.itemsArrayList = itemsArrayList;
@@ -41,13 +37,9 @@ public class MyAdapter extends ArrayAdapter<Exercise> {
 
         // 3. Get the two text view from the rowView
         TextView labelView = (TextView) rowView.findViewById(R.id.label);
-        TextView valueView = (TextView) rowView.findViewById(R.id.value);
-
 
         // 4. Set the text for textView
         labelView.setText(itemsArrayList.get(position).getName());
-        valueView.setText(itemsArrayList.get(position).getCategory());
-
         // 5. retrn rowView
         return rowView;
     }

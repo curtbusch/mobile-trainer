@@ -1,10 +1,12 @@
 package com.example.mobiletrainer;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.widget.Adapter;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -12,7 +14,6 @@ import android.widget.Toast;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.json.JSONArray;
 
 import java.util.ArrayList;
 
@@ -73,8 +74,7 @@ public class ExercisesActivity extends AppCompatActivity {
                 Log.d("Responsecode", Integer.toString(response.code()));
                 return response.body().string();
             }catch (Exception e){
-                Toast.makeText(ExercisesActivity.this,"Request failed: unable to access api", Toast.LENGTH_SHORT).show()
-                ;
+                Toast.makeText(ExercisesActivity.this,"Request failed: unable to access api", Toast.LENGTH_SHORT).show();
                 e.printStackTrace();
             }
             return null;
@@ -87,13 +87,34 @@ public class ExercisesActivity extends AppCompatActivity {
             Log.d("curtis", Integer.toString(exercises.size()));
             Log.d("whatiscount", Integer.toString(count));
 
+            // If count = 2 (Page where the first exercises start in the api, create adapter)
             if(count == 2) {
-                adapter = new MyAdapter(ExercisesActivity.this, exercises);
+                adapter = new ExerciseAdapter(ExercisesActivity.this, exercises);
                 lstExercises.setAdapter(adapter);
+
+                // On list view item selected
+                lstExercises.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        Exercise selectedExercise = exercises.get(position);
+
+                        Intent intent = new Intent(ExercisesActivity.this, ExerciseDetailsActivity.class);
+                        // Add name, category and descrition to intent to show on details page
+                        intent.putExtra("name", selectedExercise.getName());
+                        intent.putExtra("description", selectedExercise.getDescription());
+                        intent.putExtra("category", selectedExercise.getCategory());
+
+                        // Start exercise detail activity
+                        startActivity(intent);
+                    }
+                });
             }
             else {
+                // Update list view with next page of api
                 adapter.notifyDataSetChanged();
             }
+
+
         }
     }
 
@@ -104,12 +125,13 @@ public class ExercisesActivity extends AppCompatActivity {
 
             for(int i = 0; i < results.length(); i++) {
                 JSONObject exercise = results.getJSONObject(i);
-                Exercise exerciseToAdd = new Exercise(exercise.getString("name"), exercise.getString("description"), mapIdToCategory(exercise.getInt("category")));
 
-                //remove
-                String test = exercise.getString("name");
-                testList.add(test);
-                exercises.add(exerciseToAdd);
+                if(exercise.getString("description").replaceAll("\\<[^>]*>","").trim() != "")
+                {
+                    Exercise exerciseToAdd = new Exercise(exercise.getString("name"), exercise.getString("description").replaceAll("\\<[^>]*>", ""), mapIdToCategory(exercise.getInt("category")));
+
+                    exercises.add(exerciseToAdd);
+                }
 
             }
         } catch (JSONException e) {
