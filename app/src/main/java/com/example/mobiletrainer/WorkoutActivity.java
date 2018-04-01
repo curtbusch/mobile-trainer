@@ -32,6 +32,9 @@ public class WorkoutActivity extends AppCompatActivity {
 
         db = new DatabaseHelper(this);
         lstWorkouts = findViewById(R.id.lstWorkouts);
+
+        WorkoutHandler handler = new WorkoutHandler();
+        handler.execute();
     }
 
     public class WorkoutHandler extends AsyncTask {
@@ -42,7 +45,8 @@ public class WorkoutActivity extends AppCompatActivity {
                  testList = getAllWorkouts();
                 return workouts;
             }catch (Exception e){
-                Toast.makeText(WorkoutActivity.this,"Could not fetch workout records", Toast.LENGTH_SHORT).show();
+                Log.d("curtis", e.getMessage());
+                //Toast.makeText(WorkoutActivity.this,"Could not fetch workout records", Toast.LENGTH_SHORT).show();
                 e.printStackTrace();
             }
 
@@ -81,6 +85,8 @@ public class WorkoutActivity extends AppCompatActivity {
         ArrayList<String> test = new ArrayList<String>(0);
         //Toast.makeText(this, "In get all workouts", Toast.LENGTH_SHORT).show();
         Cursor cursor = db.getWorkouts();
+
+        //Toast.makeText(WorkoutActivity.this, Integer.toString(cursor.getCount()), Toast.LENGTH_SHORT).show();
 
         // populate workout arraylist with workouts from database
         for(cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
