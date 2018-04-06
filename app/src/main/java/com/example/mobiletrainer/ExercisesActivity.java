@@ -27,8 +27,6 @@ public class ExercisesActivity extends AppCompatActivity {
     private boolean isLastPage = false;
     private ArrayAdapter adapter;
 
-    //Remove
-    private ArrayList<String> testList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,8 +39,6 @@ public class ExercisesActivity extends AppCompatActivity {
         // Initialize listview and list of exercises
         lstExercises = findViewById(R.id.lstExercises);
         exercises = new ArrayList<Exercise>(10);
-        //Remove
-        testList = new ArrayList<String>(10);
 
         Log.d("islastpage", Boolean.toString(isLastPage));
 

@@ -13,13 +13,13 @@ import java.util.ArrayList;
  * Created by curtd on 3/25/2018.
  */
 
-public class WorkoutAdapter extends ArrayAdapter<WorkoutAdapter> {
+public class WorkoutAdapter extends ArrayAdapter<Workout> {
     private final Context context;
     private final ArrayList<Workout> itemsArrayList;
 
 
-    public WorkoutAdapter(Context context, int resourceId, ArrayList<Workout> itemsArrayList) {
-        super(context, resourceId);
+    public WorkoutAdapter(Context context, ArrayList<Workout> itemsArrayList) {
+        super(context, android.R.layout.simple_list_item_1, itemsArrayList);
 
         this.context = context;
         this.itemsArrayList = itemsArrayList;
@@ -33,7 +33,7 @@ public class WorkoutAdapter extends ArrayAdapter<WorkoutAdapter> {
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         // 2. Get rowView from inflater
-        View rowView = inflater.inflate(R.layout.row, parent, false);
+        View rowView = inflater.inflate(R.layout.workout_row, parent, false);
 
         // 3. Get the two text view from the rowView
         TextView labelView = (TextView) rowView.findViewById(R.id.label);

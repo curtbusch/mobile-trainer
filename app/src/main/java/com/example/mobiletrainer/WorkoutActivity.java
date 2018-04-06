@@ -9,6 +9,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -22,8 +24,6 @@ public class WorkoutActivity extends AppCompatActivity {
     private DatabaseHelper db;
     private ListView lstWorkouts;
     private ArrayList<Workout> workouts;
-    //remove
-    private ArrayList<String> testList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,17 +32,19 @@ public class WorkoutActivity extends AppCompatActivity {
 
         db = new DatabaseHelper(this);
         lstWorkouts = findViewById(R.id.lstWorkouts);
+        workouts = new ArrayList<Workout>(10);
 
         WorkoutHandler handler = new WorkoutHandler();
         handler.execute();
     }
+
 
     public class WorkoutHandler extends AsyncTask {
 
         @Override
         protected Object doInBackground(Object[] objects) {
             try {
-                 testList = getAllWorkouts();
+                getAllWorkouts();
                 return workouts;
             }catch (Exception e){
                 Log.d("curtis", e.getMessage());
@@ -56,8 +58,19 @@ public class WorkoutActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Object o) {
             super.onPostExecute(o);
-            Toast.makeText(WorkoutActivity.this, Integer.toString(testList.size()), Toast.LENGTH_SHORT).show();
-            lstWorkouts.setAdapter(new ArrayAdapter<>(WorkoutActivity.this, android.R.layout.simple_list_item_1, testList));
+            lstWorkouts.setAdapter(new WorkoutAdapter(WorkoutActivity.this, workouts));
+
+            lstWorkouts.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Workout selectedWorkout = workouts.get(position);
+
+                    Intent intent = new Intent(WorkoutActivity.this, WorkoutDetailsActivity.class);
+                    intent.putExtra("workoutId", selectedWorkout.getId());
+
+                    startActivity(intent);
+                }
+            });
         }
     }
 
@@ -79,10 +92,7 @@ public class WorkoutActivity extends AppCompatActivity {
         }
     }
 
-    private ArrayList<String> getAllWorkouts() {
-        ArrayList<Workout> workouts = new ArrayList<Workout>(0);
-        //remove
-        ArrayList<String> test = new ArrayList<String>(0);
+    private void getAllWorkouts() {
         //Toast.makeText(this, "In get all workouts", Toast.LENGTH_SHORT).show();
         Cursor cursor = db.getWorkouts();
 
@@ -91,9 +101,7 @@ public class WorkoutActivity extends AppCompatActivity {
         // populate workout arraylist with workouts from database
         for(cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
             // The Cursor is now set to the right position
-            test.add(new String(cursor.getString(1)));
-            workouts.add(new Workout(cursor.getString(1), cursor.getInt(2)));
+            workouts.add(new Workout(cursor.getInt(1), cursor.getString(1), cursor.getInt(2)));
         }
-        return test;
     }
 }
