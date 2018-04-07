@@ -10,9 +10,9 @@
         android:id="@+id/txtName"
         android:layout_width="wrap_content"
         android:layout_height="35dp"
-        android:layout_alignParentTop="true"
+        android:layout_above="@+id/txtDescription"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="12dp"
+        android:layout_marginBottom="11dp"
         android:text="TextView"
         android:textSize="24sp"
         android:textStyle="bold"
@@ -24,9 +24,10 @@
     <TextView
         android:id="@+id/txtDescription"
         android:layout_width="354dp"
-        android:layout_height="375dp"
+        android:layout_height="350dp"
+        android:layout_above="@+id/txtCategory"
         android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
+        android:layout_marginBottom="12dp"
         android:text="TextView"
         app:layout_constraintLeft_toLeftOf="parent"
         tools:layout_editor_absoluteY="84dp" />
@@ -35,11 +36,19 @@
         android:id="@+id/txtCategory"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_above="@+id/btnAddToWorkout"
         android:layout_alignStart="@+id/txtDescription"
-        android:layout_marginBottom="31dp"
         android:text="TextView"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent" />
+
+    <Button
+        android:id="@+id/btnAddToWorkout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="18dp"
+        android:text="Add to Workout" />
 </RelativeLayout>

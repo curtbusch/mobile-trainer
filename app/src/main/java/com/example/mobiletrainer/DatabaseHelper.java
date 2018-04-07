@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.sql.SQLInput;
+
 /**
  * Created by curtd on 3/13/2018.
  */
@@ -23,7 +25,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String COL_EXERCISE_ID = "id";
     private static final String COL_EXERCISE_NAME = "exercise_name";
     private static final String COL_EXERCISE_DESCRIPTION =  "description";
-    private static final String COL_CATEGORY = "category";
+    private static final String COL_EXERCISE_CATEGORY = "category";
     private static final String COL_WORKOUT_ID_FK = "workout_id";
     private static final String COL_EXERCISE_COMPLETE = "complete";
 
@@ -39,7 +41,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     COL_EXERCISE_ID + " INTEGER NOT NULL, " +
                     COL_EXERCISE_NAME + " TEXT NOT NULL, " +
                     COL_EXERCISE_DESCRIPTION + " TEXT NOT NULL, " +
-                    COL_CATEGORY + " TEXT NOT NULL, " +
+                    COL_EXERCISE_CATEGORY + " TEXT NOT NULL, " +
                     COL_WORKOUT_ID_FK + " INTEGER, " +
                     COL_EXERCISE_COMPLETE + " INTEGER," +
                     "PRIMARY KEY (id));";
@@ -78,6 +80,31 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         // Result is equal to minus 1 if not inserted
         return result != -1;
+    }
+
+    public boolean insertExercise(String exerciseName, String exerciseDescription,
+                                  String exerciseCategory, int workoutId, int exerciseComplete) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put(COL_EXERCISE_NAME, exerciseName);
+        contentValues.put(COL_EXERCISE_DESCRIPTION, exerciseDescription);
+        contentValues.put(COL_EXERCISE_CATEGORY, exerciseCategory);
+        contentValues.put(COL_WORKOUT_ID_FK, workoutId);
+        contentValues.put(COL_EXERCISE_COMPLETE, exerciseComplete);
+
+        long result = db.insert(EXERCISE_TABLE, null, contentValues);
+
+        return result != -1;
+    }
+
+    public Cursor getExercises(int workoutId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        Cursor result = db.rawQuery("SELECT * FROM " + EXERCISE_TABLE + " WHERE workout_id = " + Integer.toString(workoutId), null);
+
+        return result;
     }
 
     public Cursor getWorkouts() {

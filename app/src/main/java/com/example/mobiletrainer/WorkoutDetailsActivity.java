@@ -10,6 +10,7 @@ import android.widget.ListView;
 
 public class WorkoutDetailsActivity extends AppCompatActivity {
     private ListView lstExercises;
+    private Bundle bundle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,6 +18,9 @@ public class WorkoutDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_workout_details);
 
         lstExercises = findViewById(R.id.lstExercises);
+
+        bundle = new Bundle();
+        bundle = getIntent().getExtras();
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -28,6 +32,7 @@ public class WorkoutDetailsActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         Intent intent = new Intent(WorkoutDetailsActivity.this, ExercisesActivity.class);
+        intent.putExtra("workoutId", bundle.getString("workoutId"));
         if (item.getItemId() == R.id.addWorkout) {
             startActivity(intent);
             return true;
