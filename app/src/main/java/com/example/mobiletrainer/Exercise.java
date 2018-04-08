@@ -6,11 +6,20 @@ package com.example.mobiletrainer;
 
 public class Exercise {
     private String name, description, category;
+    private int sets, reps;
 
     public Exercise (String name, String description, String category) {
         this.name = name;
         this.description = description;
         this.category = category;
+    }
+
+    public Exercise(String name, String description, String category, int sets, int reps) {
+        this.name = name;
+        this.description = description;
+        this.category = category;
+        this.sets = sets;
+        this.reps = reps;
     }
 
     public String getName() {
@@ -25,6 +34,14 @@ public class Exercise {
         return this.category;
     }
 
+    public int getSets () {
+        return this.sets;
+    }
+
+    public int getReps() {
+        return this.reps;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -37,5 +54,11 @@ public class Exercise {
         this.category = category;
     }
 
+    public void setSets(int sets) {
+        this.sets = sets;
+    }
 
+    public void setReps(int reps) {
+        this.reps = reps;
+    }
 }

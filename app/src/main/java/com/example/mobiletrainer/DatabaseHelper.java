@@ -14,7 +14,7 @@ import java.sql.SQLInput;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DB_NAME = "workoutplan.db";
-    private static final int DB_VERSION = 8;
+    private static final int DB_VERSION = 10;
 
     private static final String WORKOUT_TABLE = "workout";
     private static final String COL_WORKOUT_ID = "id";
@@ -26,6 +26,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String COL_EXERCISE_NAME = "exercise_name";
     private static final String COL_EXERCISE_DESCRIPTION =  "description";
     private static final String COL_EXERCISE_CATEGORY = "category";
+    private static final String COL_SETS = "sets";
+    private static final String COL_REPS = "reps";
     private static final String COL_WORKOUT_ID_FK = "workout_id";
     private static final String COL_EXERCISE_COMPLETE = "complete";
 
@@ -42,6 +44,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     COL_EXERCISE_NAME + " TEXT NOT NULL, " +
                     COL_EXERCISE_DESCRIPTION + " TEXT NOT NULL, " +
                     COL_EXERCISE_CATEGORY + " TEXT NOT NULL, " +
+                    COL_SETS + " INTEGER NOT NULL, " +
+                    COL_REPS + " INTEGER NOT NULL, " +
                     COL_WORKOUT_ID_FK + " INTEGER, " +
                     COL_EXERCISE_COMPLETE + " INTEGER," +
                     "PRIMARY KEY (id));";
@@ -83,7 +87,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public boolean insertExercise(String exerciseName, String exerciseDescription,
-                                  String exerciseCategory, int workoutId, int exerciseComplete) {
+                                  String exerciseCategory, int sets, int reps, int workoutId, int exerciseComplete) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues contentValues = new ContentValues();
@@ -91,6 +95,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(COL_EXERCISE_NAME, exerciseName);
         contentValues.put(COL_EXERCISE_DESCRIPTION, exerciseDescription);
         contentValues.put(COL_EXERCISE_CATEGORY, exerciseCategory);
+        contentValues.put(COL_SETS, sets);
+        contentValues.put(COL_REPS, reps);
         contentValues.put(COL_WORKOUT_ID_FK, workoutId);
         contentValues.put(COL_EXERCISE_COMPLETE, exerciseComplete);
 

@@ -27,6 +27,8 @@ public class ExercisesActivity extends AppCompatActivity {
     private boolean isLastPage = false;
     private ArrayAdapter adapter;
 
+    private Bundle bundle;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +43,9 @@ public class ExercisesActivity extends AppCompatActivity {
         exercises = new ArrayList<Exercise>(10);
 
         Log.d("islastpage", Boolean.toString(isLastPage));
+
+        bundle = new Bundle();
+        bundle = getIntent().getExtras();
 
         for(int i = 2; i < 26; i++) {
             String url = "https://wger.de/api/v2/exercise.json/?page=" + Integer.toString(i);
@@ -99,7 +104,7 @@ public class ExercisesActivity extends AppCompatActivity {
                         intent.putExtra("name", selectedExercise.getName());
                         intent.putExtra("description", selectedExercise.getDescription());
                         intent.putExtra("category", selectedExercise.getCategory());
-
+                        intent.putExtra("workoutId", bundle.getInt("workoutId"));
                         // Start exercise detail activity
                         startActivity(intent);
                     }
