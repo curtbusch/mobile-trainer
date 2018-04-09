@@ -36,17 +36,21 @@ public class ExerciseDetailsActivity extends AppCompatActivity {
         txtDescription.setText(bundle.getString("description"));
         txtCategory.setText(bundle.getString("category"));
 
-
-        btnAddToWorkout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ExerciseDetailsActivity.this, AddToWorkoutActivity.class);
-                intent.putExtra("title", bundle.getString("name"));
-                intent.putExtra("description", bundle.getString("description"));
-                intent.putExtra("category", bundle.getString("category"));
-                intent.putExtra("id", bundle.getInt("workoutId"));
-                startActivity(intent);
-            }
-        });
+        if(!bundle.getBoolean("alreadyAdded")) {
+            btnAddToWorkout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(ExerciseDetailsActivity.this, AddToWorkoutActivity.class);
+                    intent.putExtra("title", bundle.getString("name"));
+                    intent.putExtra("description", bundle.getString("description"));
+                    intent.putExtra("category", bundle.getString("category"));
+                    intent.putExtra("id", bundle.getInt("workoutId"));
+                    startActivity(intent);
+                }
+            });
+        }
+        else{
+            btnAddToWorkout.setVisibility(View.INVISIBLE);
+        }
     }
 }

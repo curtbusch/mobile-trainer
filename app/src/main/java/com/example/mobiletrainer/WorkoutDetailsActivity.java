@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -53,6 +55,22 @@ public class WorkoutDetailsActivity extends AppCompatActivity {
             super.onPostExecute(o);
 
             lstExercises.setAdapter(new ExerciseAdapter(WorkoutDetailsActivity.this, exercises));
+
+            lstExercises.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Exercise selectedExercise = exercises.get(position);
+
+                    Intent intent = new Intent(WorkoutDetailsActivity.this, ExerciseDetailsActivity.class);
+                    // Add name, category and descrition to intent to show on details page
+                    intent.putExtra("name", selectedExercise.getName());
+                    intent.putExtra("description", selectedExercise.getDescription());
+                    intent.putExtra("category", selectedExercise.getCategory());
+                    intent.putExtra("alreadyAdded", true);
+                    // Start exercise detail activity
+                    startActivity(intent);
+                }
+            });
         }
     }
 
