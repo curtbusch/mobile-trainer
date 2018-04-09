@@ -101,7 +101,7 @@ public class WorkoutActivity extends AppCompatActivity {
         // populate workout arraylist with workouts from database
         for(cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
             // The Cursor is now set to the right position
-            workouts.add(new Workout(cursor.getInt(1), cursor.getString(1), cursor.getInt(2)));
+            workouts.add(new Workout(cursor.getInt(0), cursor.getString(1), cursor.getInt(2)));
         }
     }
 }

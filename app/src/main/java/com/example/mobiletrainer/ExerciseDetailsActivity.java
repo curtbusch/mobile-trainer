@@ -44,7 +44,7 @@ public class ExerciseDetailsActivity extends AppCompatActivity {
                     intent.putExtra("title", bundle.getString("name"));
                     intent.putExtra("description", bundle.getString("description"));
                     intent.putExtra("category", bundle.getString("category"));
-                    intent.putExtra("id", bundle.getInt("workoutId"));
+                    intent.putExtra("workoutId", bundle.getInt("workoutId"));
                     startActivity(intent);
                 }
             });

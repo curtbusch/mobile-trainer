@@ -47,6 +47,7 @@ public class AddToWorkoutActivity extends AppCompatActivity {
                     Toast.makeText(AddToWorkoutActivity.this, "Must set sets and reps!", Toast.LENGTH_SHORT).show();
                 }
                 else {
+                    Log.d("insertedtoid", "inserted to workout id " + Integer.toString(workoutId));
                     boolean isInserted = db.insertExercise(bundle.getString("title"), bundle.getString("description"), bundle.getString("category"),
                                         Integer.parseInt(txtSets.getText().toString()), Integer.parseInt(txtReps.getText().toString()), workoutId, 0);
 

@@ -44,8 +44,6 @@ public class ExercisesActivity extends AppCompatActivity {
         lstExercises = findViewById(R.id.lstExercises);
         exercises = new ArrayList<Exercise>(10);
 
-        Log.d("islastpage", Boolean.toString(isLastPage));
-
         bundle = new Bundle();
         bundle = getIntent().getExtras();
 
@@ -55,9 +53,10 @@ public class ExercisesActivity extends AppCompatActivity {
         OkHttpHandler httpHandler = new OkHttpHandler(apiPageNumber);
         httpHandler.execute(url);
 
+        // increase page number to load in more exercises from the next page
         apiPageNumber++;
 
-        // If user scrolls to end
+        // If user scrolls to end hit api again
         lstExercises.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {

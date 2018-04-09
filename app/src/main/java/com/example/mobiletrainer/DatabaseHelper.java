@@ -14,7 +14,7 @@ import java.sql.SQLInput;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DB_NAME = "workoutplan.db";
-    private static final int DB_VERSION = 10;
+    private static final int DB_VERSION = 11;
 
     private static final String WORKOUT_TABLE = "workout";
     private static final String COL_WORKOUT_ID = "id";
@@ -108,7 +108,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public Cursor getExercises(int workoutId) {
         SQLiteDatabase db = this.getWritableDatabase();
 
-        Cursor result = db.rawQuery("SELECT * FROM " + EXERCISE_TABLE + " WHERE workout_id = " + Integer.toString(workoutId), null);
+        Cursor result = db.rawQuery("SELECT * FROM " + EXERCISE_TABLE + " WHERE workout_id = " + workoutId, null);
 
         return result;
     }
