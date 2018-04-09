@@ -50,13 +50,6 @@ public class AddToWorkoutActivity extends AppCompatActivity {
                     boolean isInserted = db.insertExercise(bundle.getString("title"), bundle.getString("description"), bundle.getString("category"),
                                         Integer.parseInt(txtSets.getText().toString()), Integer.parseInt(txtReps.getText().toString()), workoutId, 0);
 
-                    Log.d("exerciseInsert", "exercise name: " + bundle.getString("title"));
-                    Log.d("exerciseInsert", "exercise description: " + bundle.getString("description"));
-                    Log.d("exerciseInsert", "exercise category: " + bundle.getString("category"));
-                    Log.d("exerciseInsert", "exercise sets: " + txtSets.getText().toString());
-                    Log.d("exerciseInsert", "exercise reps: " + txtReps.getText().toString());
-                    Log.d("exerciseInsert", "exercise workoutId: " + Integer.toString(workoutId));
-
                     if(isInserted) {
                         Intent intent = new Intent(AddToWorkoutActivity.this, WorkoutDetailsActivity.class);
                         intent.putExtra("workoutId", workoutId);

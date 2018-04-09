@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -26,6 +27,7 @@ public class ExercisesActivity extends AppCompatActivity {
     private ArrayList<Exercise> exercises;
     private boolean isLastPage = false;
     private ArrayAdapter adapter;
+    private int apiPageNumber;
 
     private Bundle bundle;
 
@@ -47,11 +49,35 @@ public class ExercisesActivity extends AppCompatActivity {
         bundle = new Bundle();
         bundle = getIntent().getExtras();
 
-        for(int i = 2; i < 26; i++) {
-            String url = "https://wger.de/api/v2/exercise.json/?page=" + Integer.toString(i);
-            OkHttpHandler httpHandler = new OkHttpHandler(i);
-            httpHandler.execute(url);
-        }
+        apiPageNumber = 2;
+
+        String url = "https://wger.de/api/v2/exercise.json/?page=" + Integer.toString(apiPageNumber);
+        OkHttpHandler httpHandler = new OkHttpHandler(apiPageNumber);
+        httpHandler.execute(url);
+
+        apiPageNumber++;
+
+        // If user scrolls to end
+        lstExercises.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+                if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE
+                        && (lstExercises.getLastVisiblePosition() - lstExercises.getHeaderViewsCount() -
+                        lstExercises.getFooterViewsCount()) >= (adapter.getCount() - 1)) {
+
+                    Toast.makeText(ExercisesActivity.this, "Loading more exercises", Toast.LENGTH_SHORT).show();
+                    // Now your listview has hit the bottom
+                    String url = "https://wger.de/api/v2/exercise.json/?page=" + Integer.toString(apiPageNumber);
+                    OkHttpHandler httpHandler = new OkHttpHandler(apiPageNumber);
+                    httpHandler.execute(url);
+                }
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                //nothing
+            }
+        });
     }
 
     public class OkHttpHandler extends AsyncTask {
