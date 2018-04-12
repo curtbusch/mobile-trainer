@@ -61,7 +61,7 @@ public class WorkoutDetailsActivity extends AppCompatActivity {
         protected void onPostExecute(Object o) {
             super.onPostExecute(o);
 
-            lstExercises.setAdapter(new ExerciseAdapter(WorkoutDetailsActivity.this, exercises));
+            lstExercises.setAdapter(new AddedExerciseAdapter(WorkoutDetailsActivity.this, exercises));
 
             lstExercises.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override

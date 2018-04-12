@@ -16,14 +16,14 @@ import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
-public class ExerciseAdapter extends ArrayAdapter<Exercise> {
+public class AddedExerciseAdapter extends ArrayAdapter<Exercise> {
     private final Context context;
     private final ArrayList<Exercise> itemsArrayList;
 
 
-    public ExerciseAdapter(Context context, ArrayList<Exercise> itemsArrayList) {
+    public AddedExerciseAdapter(Context context, ArrayList<Exercise> itemsArrayList) {
 
-        super(context, R.layout.row, itemsArrayList);
+        super(context, R.layout.addedexercise_row, itemsArrayList);
 
         this.context = context;
         this.itemsArrayList = itemsArrayList;
@@ -37,7 +37,7 @@ public class ExerciseAdapter extends ArrayAdapter<Exercise> {
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         // 2. Get rowView from inflater
-        View rowView = inflater.inflate(R.layout.row, parent, false);
+        View rowView = inflater.inflate(R.layout.addedexercise_row, parent, false);
 
         // 3. Get the two text view from the rowView
         TextView labelView = (TextView) rowView.findViewById(R.id.label);
@@ -46,9 +46,9 @@ public class ExerciseAdapter extends ArrayAdapter<Exercise> {
 
         // 4. Set the text for textView
         labelView.setText(itemsArrayList.get(position).getName());
-        valueView.setText(itemsArrayList.get(position).getCategory());
+        valueView.setText(Integer.toString(itemsArrayList.get(position).getSets()) + " x " + Integer.toString(itemsArrayList.get(position).getReps()));
 
-        // 5. u rowView
+        // 5. return rowView
         return rowView;
     }
 }

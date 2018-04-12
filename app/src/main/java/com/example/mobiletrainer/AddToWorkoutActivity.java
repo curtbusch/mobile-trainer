@@ -55,6 +55,7 @@ public class AddToWorkoutActivity extends AppCompatActivity {
                         Intent intent = new Intent(AddToWorkoutActivity.this, WorkoutDetailsActivity.class);
                         intent.putExtra("workoutId", workoutId);
                         startActivity(intent);
+                        finish();
                     }
                     else {
                         Toast.makeText(AddToWorkoutActivity.this, "Exercise could not be added to workout!", Toast.LENGTH_SHORT).show();

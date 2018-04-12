@@ -69,6 +69,8 @@ public class ExercisesActivity extends AppCompatActivity {
                     String url = "https://wger.de/api/v2/exercise.json/?page=" + Integer.toString(apiPageNumber);
                     OkHttpHandler httpHandler = new OkHttpHandler(apiPageNumber);
                     httpHandler.execute(url);
+
+                    apiPageNumber++;
                 }
             }
 
