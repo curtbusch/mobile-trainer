@@ -34,7 +34,7 @@ public class ExerciseDetailsActivity extends AppCompatActivity {
         btnAddToWorkout = findViewById(R.id.btnAddToWorkout);
 
         bundle = new Bundle();
-        bundle =  getIntent().getExtras();
+        bundle = getIntent().getExtras();
 
         String name = bundle.getString("name");
 
@@ -42,7 +42,7 @@ public class ExerciseDetailsActivity extends AppCompatActivity {
         txtDescription.setText(bundle.getString("description"));
         txtCategory.setText(bundle.getString("category"));
 
-        if(!bundle.getBoolean("alreadyAdded")) {
+        if (!bundle.getBoolean("alreadyAdded")) {
             btnAddToWorkout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -54,39 +54,11 @@ public class ExerciseDetailsActivity extends AppCompatActivity {
                     startActivity(intent);
                 }
             });
-        }
-        else{
+        } else {
             btnAddToWorkout.setVisibility(View.INVISIBLE);
         }
     }
 
-    public boolean onCreateOptionsMenu(Menu menu) {
-        if(bundle.getBoolean("alreadyAdded")) {
-            MenuInflater inflater = getMenuInflater();
-            inflater.inflate(R.menu.exercise_details_menu, menu);
-        }
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-         if(item.getItemId() == R.id.deleteExercise) {
-            boolean deleted = db.deleteWorkout(bundle.getInt("workoutId"));
-
-            if(deleted) {
-                Intent main = new Intent(WorkoutDetailsActivity.this, WorkoutActivity.class);
-                startActivity(main);
-            }
-            else {
-                Toast.makeText(ExerciseDetailsActivity.this, "Could not be deleted", Toast.LENGTH_SHORT).show();
-            }
-
-            return true;
-        }
-        else {
-            return super.onOptionsItemSelected(item);
-        }
-    }
 
     @Override
     protected void onResume() {

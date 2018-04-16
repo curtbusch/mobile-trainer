@@ -118,6 +118,7 @@ public class WorkoutDetailsActivity extends AppCompatActivity {
             if(deleted) {
                 Intent main = new Intent(WorkoutDetailsActivity.this, WorkoutActivity.class);
                 startActivity(main);
+                Toast.makeText(WorkoutDetailsActivity.this, "Workout deleted", Toast.LENGTH_SHORT).show();
             }
             else {
                 Toast.makeText(WorkoutDetailsActivity.this, "Could not be deleted", Toast.LENGTH_SHORT).show();
@@ -131,7 +132,6 @@ public class WorkoutDetailsActivity extends AppCompatActivity {
     }
 
     private void getAllExercises(){
-        Log.d("noexercises", Integer.toString(bundle.getInt("workoutId")));
         Cursor cursor = db.getExercises(bundle.getInt("workoutId"));
 
         for(cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {

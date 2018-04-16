@@ -14,7 +14,7 @@ import java.sql.SQLInput;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DB_NAME = "workoutplan.db";
-    private static final int DB_VERSION = 13;
+    private static final int DB_VERSION = 35;
 
     private static final String WORKOUT_TABLE = "workout";
     private static final String COL_WORKOUT_ID = "id";
@@ -46,9 +46,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     COL_EXERCISE_CATEGORY + " TEXT NOT NULL, " +
                     COL_SETS + " INTEGER NOT NULL, " +
                     COL_REPS + " INTEGER NOT NULL, " +
-                    COL_WORKOUT_ID_FK + " INTEGER, " +
+                    COL_WORKOUT_ID_FK + " INTEGER NOT NULL, " +
                     COL_EXERCISE_COMPLETE + " INTEGER," +
-                    "PRIMARY KEY (id));";
+                    "PRIMARY KEY (id));" ;
+
+    private static final String ALTER_EXERCISE_TABLE = "ALTER TABLE exercise ADD FOREIGN KEY (workout_id) REFERENCES workout(id) ON DELETE CASCADE;";
 
     private static final String DROP_WORKOUT_TABLE = "DROP TABLE IF EXISTS " + EXERCISE_TABLE;
 
@@ -125,14 +127,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         long result = db.delete(WORKOUT_TABLE, "id = " + workoutId, null);
-
-        return result != -1;
-    }
-
-    public boolean deleteExercise(int exerciseId) {
-        SQLiteDatabase db = this.getWritableDatabase();
-
-        long result = db.delete(EXERCISE_TABLE, "id = " + exerciseId, null);
+        db.delete(EXERCISE_TABLE, "workout_id = " + workoutId, null);
 
         return result != -1;
     }
