@@ -1,8 +1,13 @@
 package com.example.mobiletrainer;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.os.AsyncTask;
+import android.preference.Preference;
+import android.preference.PreferenceActivity;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -82,8 +87,13 @@ public class WorkoutActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Intent intent = new Intent(WorkoutActivity.this, NewWorkoutActivity.class);
         if (item.getItemId() == R.id.addWorkout) {
+            Intent intent = new Intent(WorkoutActivity.this, NewWorkoutActivity.class);
+            startActivity(intent);
+            return true;
+        }
+        else if (item.getItemId() == R.id.preferences) {
+            Intent intent = new Intent(WorkoutActivity.this, PreferencesActivity.class);
             startActivity(intent);
             return true;
         }
@@ -113,5 +123,21 @@ public class WorkoutActivity extends AppCompatActivity {
         a.addCategory(Intent.CATEGORY_HOME);
         a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(a);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        View screen = this.getWindow().getDecorView();
+        SharedPreferences getPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        boolean darkMode = getPrefs.getBoolean("colour", false);
+
+        if(darkMode) {
+            screen.setBackgroundResource(getPrefs.getInt("background", R.color.differentBackground));
+        }
+        else {
+            screen.setBackgroundResource(getPrefs.getInt("background", R.color.whiteBackground));
+        }
     }
 }

@@ -1,6 +1,8 @@
 package com.example.mobiletrainer;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -63,5 +65,21 @@ public class AddToWorkoutActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        View screen = this.getWindow().getDecorView();
+        SharedPreferences getPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        boolean darkMode = getPrefs.getBoolean("colour", false);
+
+        if(darkMode) {
+            screen.setBackgroundResource(getPrefs.getInt("background", R.color.differentBackground));
+        }
+        else {
+            screen.setBackgroundResource(getPrefs.getInt("background", R.color.whiteBackground));
+        }
     }
 }

@@ -14,7 +14,7 @@ import java.sql.SQLInput;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DB_NAME = "workoutplan.db";
-    private static final int DB_VERSION = 11;
+    private static final int DB_VERSION = 13;
 
     private static final String WORKOUT_TABLE = "workout";
     private static final String COL_WORKOUT_ID = "id";
@@ -121,4 +121,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return result;
     }
 
+    public boolean deleteWorkout(int workoutId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        long result = db.delete(WORKOUT_TABLE, "id = " + workoutId, null);
+
+        return result != -1;
+    }
+
+    public boolean deleteExercise(int exerciseId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        long result = db.delete(EXERCISE_TABLE, "id = " + exerciseId, null);
+
+        return result != -1;
+    }
 }

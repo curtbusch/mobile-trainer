@@ -2,7 +2,9 @@ package com.example.mobiletrainer;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -19,6 +21,17 @@ public class NewWorkoutActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_workout);
+
+        View screen = this.getWindow().getDecorView();
+        SharedPreferences getPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        boolean darkMode = getPrefs.getBoolean("colour", false);
+
+        if(darkMode) {
+            screen.setBackgroundResource(getPrefs.getInt("background", R.color.differentBackground));
+        }
+        else {
+            screen.setBackgroundResource(getPrefs.getInt("background", R.color.whiteBackground));
+        }
 
         db = new DatabaseHelper(this);
 
@@ -44,5 +57,21 @@ public class NewWorkoutActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        View screen = this.getWindow().getDecorView();
+        SharedPreferences getPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        boolean darkMode = getPrefs.getBoolean("colour", false);
+
+        if(darkMode) {
+            screen.setBackgroundResource(getPrefs.getInt("background", R.color.differentBackground));
+        }
+        else {
+            screen.setBackgroundResource(getPrefs.getInt("background", R.color.whiteBackground));
+        }
     }
 }

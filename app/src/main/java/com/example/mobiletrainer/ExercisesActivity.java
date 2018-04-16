@@ -1,8 +1,10 @@
 package com.example.mobiletrainer;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -36,7 +38,6 @@ public class ExercisesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercises);
-
 
         Toast.makeText(ExercisesActivity.this,"Loading Exercises...", Toast.LENGTH_SHORT).show();
 
@@ -99,7 +100,6 @@ public class ExercisesActivity extends AppCompatActivity {
 
             try {
                 Response response = client.newCall(request).execute();
-                Log.d("Responsecode", Integer.toString(response.code()));
                 return response.body().string();
             }catch (Exception e){
                 Toast.makeText(ExercisesActivity.this,"Request failed: unable to access api", Toast.LENGTH_SHORT).show();
@@ -112,8 +112,6 @@ public class ExercisesActivity extends AppCompatActivity {
         protected void onPostExecute(Object o) {
             super.onPostExecute(o);
             parseResponse(o.toString());
-            Log.d("curtis", Integer.toString(exercises.size()));
-            Log.d("whatiscount", Integer.toString(count));
 
             // If count = 2 (Page where the first exercises start in the api, create adapter)
             if(count == 2) {
@@ -197,5 +195,23 @@ public class ExercisesActivity extends AppCompatActivity {
         }
 
         return categoryName;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        View screen = this.getWindow().getDecorView();
+        SharedPreferences getPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        boolean darkMode = getPrefs.getBoolean("colour", false);
+        boolean largeText = getPrefs.getBoolean("largetext", false);
+
+        if(darkMode) {
+            screen.setBackgroundResource(getPrefs.getInt("background", R.color.differentBackground));
+        }
+        else {
+            screen.setBackgroundResource(getPrefs.getInt("background", R.color.whiteBackground));
+        }
+
     }
 }

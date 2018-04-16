@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <SwitchPreference
+        android:title="Dark Mode"
+        android:key="colour"
+        android:defaultValue="false"
+        />
+    <SwitchPreference
+        android:title="Large Exercise Titles"
+        android:key="largetext"
+        android:defaultValue="false"
+        />
+</PreferenceScreen>

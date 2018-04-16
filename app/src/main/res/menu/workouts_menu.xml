@@ -4,4 +4,7 @@
     <item android:id="@+id/addWorkout"
         android:title="Add Workout"
         app:showAsAction="always" />
+
+    <item android:id="@+id/preferences"
+        android:title="Settings" />
 </menu>

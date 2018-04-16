@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,6 +48,17 @@ public class ExerciseAdapter extends ArrayAdapter<Exercise> {
         // 4. Set the text for textView
         labelView.setText(itemsArrayList.get(position).getName());
         valueView.setText(itemsArrayList.get(position).getCategory());
+
+        SharedPreferences getPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        boolean largeText = getPrefs.getBoolean("largetext", false);
+
+
+        if(largeText) {
+            labelView.setTextSize(30);
+        }
+        else {
+            labelView.setTextSize(20);
+        }
 
         // 5. u rowView
         return rowView;

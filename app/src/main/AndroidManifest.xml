@@ -22,7 +22,8 @@
         <activity android:name=".ExerciseDetailsActivity" />
         <activity android:name=".NewWorkoutActivity" />
         <activity android:name=".WorkoutDetailsActivity" />
-        <activity android:name=".AddToWorkoutActivity"></activity>
+        <activity android:name=".AddToWorkoutActivity" />
+        <activity android:name=".PreferencesActivity"></activity>
     </application>
 
 </manifest>

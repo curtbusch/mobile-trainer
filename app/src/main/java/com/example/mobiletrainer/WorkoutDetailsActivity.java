@@ -1,8 +1,10 @@
 package com.example.mobiletrainer;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -30,7 +32,6 @@ public class WorkoutDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_workout_details);
 
         lstExercises = findViewById(R.id.lstExercises);
-
 
         exercises = new ArrayList<Exercise>(0);
 
@@ -85,7 +86,16 @@ public class WorkoutDetailsActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
+        View screen = this.getWindow().getDecorView();
+        SharedPreferences getPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        boolean darkMode = getPrefs.getBoolean("colour", false);
 
+        if(darkMode) {
+            screen.setBackgroundResource(getPrefs.getInt("background", R.color.differentBackground));
+        }
+        else {
+            screen.setBackgroundResource(getPrefs.getInt("background", R.color.whiteBackground));
+        }
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -96,10 +106,23 @@ public class WorkoutDetailsActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Intent intent = new Intent(WorkoutDetailsActivity.this, ExercisesActivity.class);
-        intent.putExtra("workoutId", bundle.getInt("workoutId"));
         if (item.getItemId() == R.id.addWorkout) {
+            Intent intent = new Intent(WorkoutDetailsActivity.this, ExercisesActivity.class);
+            intent.putExtra("workoutId", bundle.getInt("workoutId"));
             startActivity(intent);
+            return true;
+        }
+        else if(item.getItemId() == R.id.deleteWorkout) {
+            boolean deleted = db.deleteWorkout(bundle.getInt("workoutId"));
+
+            if(deleted) {
+                Intent main = new Intent(WorkoutDetailsActivity.this, WorkoutActivity.class);
+                startActivity(main);
+            }
+            else {
+                Toast.makeText(WorkoutDetailsActivity.this, "Could not be deleted", Toast.LENGTH_SHORT).show();
+            }
+
             return true;
         }
         else {
